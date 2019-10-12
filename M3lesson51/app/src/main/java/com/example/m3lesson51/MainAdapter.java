@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> implements onViewHolderListener{
 
@@ -50,6 +51,11 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> implements
         Log.d("ron", data.get(position));
         String string = data.get(position);
         Intent intent = new Intent(activity, Main2Activity.class);
+
+        String
+
+
+
         intent.putExtra("key", string);
         activity.startActivity(intent);
 
