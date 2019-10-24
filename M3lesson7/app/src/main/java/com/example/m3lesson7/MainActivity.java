@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 
-public class MainActivity extends AppCompatActivity implements ListFragment.OnListFragmentListener, DetailsFragment.OnDetailsFragmentListener {
+public class MainActivity extends AppCompatActivity implements ListFragment.OnListFragmentListener, DetailsFragment.OnDetailsFragmentListener, AddFragment.OnFragmentAddListener {
 
     ListFragment listFragment;
     DetailsFragment detailsFragment;
@@ -66,10 +66,19 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnLi
     }
 
     @Override
-    public void saveElement(String string) {
-        Log.d("ron", "save");
-        showFragment(new ListFragment());
+    public void addElementButton() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        transaction.replace(R.id.container,new AddFragment());
+        transaction.commit();
     }
+
+//    @Override
+//    public void saveElement(String string) {
+//        Log.d("ron", "save");
+//        showFragment(listFragment);
+//    }
 
 
 //    @Override
@@ -96,16 +105,25 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnLi
     }
 
 
-    @Override
-    public void addElement() {
-        Log.d("ron", "add");
-        showFragment(new AddFragment());
-    }
+//    @Override
+//    public void addElement() {
+//        Log.d("ron", "add");
+//        showFragment(new AddFragment());
+//    }
 
     public void showFragment(Fragment fragment){
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.container, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void saveButton(String string) {
+        listFragment.addElement(string);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.container,listFragment);
         transaction.commit();
     }
 }

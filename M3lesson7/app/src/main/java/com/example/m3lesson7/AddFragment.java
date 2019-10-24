@@ -1,7 +1,6 @@
 package com.example.m3lesson7;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -18,12 +17,12 @@ import android.widget.EditText;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link AddFragment.OnFragmentInteractionListener} interface
+ * {@link OnFragmentAddListener} interface
  * to handle interaction events.
  * Use the {@link AddFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddFragment extends Fragment implements IVHListener{
+public class AddFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,11 +31,10 @@ public class AddFragment extends Fragment implements IVHListener{
     // TODO: Rename and change types of parameters
     private String mParam1;
 
-    private ListFragment.OnListFragmentListener mListener;
-    private MainAdapter adapter;
-    AddFragment addFragment;
-    Button saveButton;
-    EditText editText;
+    private Button saveButton;
+    private EditText editText;
+    private OnFragmentAddListener listener;
+    private View view;
 
     public AddFragment() {
         // Required empty public constructor
@@ -59,66 +57,65 @@ public class AddFragment extends Fragment implements IVHListener{
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
-    }
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//        }
+//    }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        saveButton = getView().findViewById(R.id.saveBtn);
-
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.saveElement("is the greatest");
-
-            }
-        });
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add, container, false);
+        view = inflater.inflate(R.layout.fragment_add, container, false);
+
+        editText = view.findViewById(R.id.editText);
+        saveButton = view.findViewById(R.id.saveBtn);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.saveButton(editText.getText().toString());
+
+            }
+        });
+
+        return view;
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-    }
+//    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//    }
 
     // TODO: Rename method, update argument and hook method into UI event
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof ListFragment.OnListFragmentListener) {
-            mListener = (ListFragment.OnListFragmentListener) context;
+        if (context instanceof OnFragmentAddListener) {
+            listener = (OnFragmentAddListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnFragmentAddListener");
         }
     }
 
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+//    @Override
+//    public void onDetach() {
+//        super.onDetach();
+//        mListener = null;
+//    }
 
-    @Override
-    public void onVHClick(String string) {
-        mListener.addElement();
-    }
+//    @Override
+//    public void onVHClick(String string) {
+//        mListener.addElement();
+//    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -130,6 +127,7 @@ public class AddFragment extends Fragment implements IVHListener{
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentAddListener {
+        void saveButton(String string);
     }
 }

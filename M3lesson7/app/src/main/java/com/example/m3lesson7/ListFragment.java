@@ -32,22 +32,21 @@ public class ListFragment extends Fragment implements IVHListener{
     // TODO: Rename and change types of parameters
     private String mParam1;
 
-    Button addButton;
-    EditText editText;
+    private Button button;
     private OnListFragmentListener mListener;
     private MainAdapter adapter;
+    View view;
 
     public ListFragment() {
         // Required empty public constructor
         adapter = new MainAdapter(this);
-        adapter.addString("Cristiano Ronaldo");
     }
 
-    static public ListFragment instance(OnListFragmentListener mListener){
-        ListFragment buttonFragment = new ListFragment();
-        buttonFragment.mListener = mListener;
-        return buttonFragment;
-    }
+//    static public ListFragment instance(OnListFragmentListener mListener){
+//        ListFragment buttonFragment = new ListFragment();
+//        buttonFragment.mListener = mListener;
+//        return buttonFragment;
+//    }
 
     /**
      * Use this factory method to create a new instance of
@@ -87,7 +86,18 @@ public class ListFragment extends Fragment implements IVHListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list, container, false);
+        view = inflater.inflate(R.layout.fragment_list, container, false);
+
+        button = view.findViewById(R.id.addBtn);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.addElementButton();
+            }
+        });
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -100,19 +110,6 @@ public class ListFragment extends Fragment implements IVHListener{
         if (mListener != null) {
             mListener.onOpenDetails(string);
         }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        addButton = getView().findViewById(R.id.addBtn);
-
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.addElement();
-            }
-        });
     }
 
     @Override
@@ -132,6 +129,10 @@ public class ListFragment extends Fragment implements IVHListener{
         mListener = null;
     }
 
+    public void addElement(String string){
+        adapter.addString(string);
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -145,7 +146,6 @@ public class ListFragment extends Fragment implements IVHListener{
     public interface OnListFragmentListener {
         // TODO: Update argument type and name
         void onOpenDetails(String string);
-        void saveElement(String string);
-        void addElement();
+        void addElementButton();
     }
 }
