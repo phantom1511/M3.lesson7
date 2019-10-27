@@ -43,4 +43,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     public int getItemCount() {
         return data.size();
     }
+
+    public void setData(ArrayList<String> data) {
+        this.data = data;
+        notifyDataSetChanged();
+    }
 }

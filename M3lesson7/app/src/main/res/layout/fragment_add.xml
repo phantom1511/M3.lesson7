@@ -6,11 +6,17 @@
     tools:context=".AddFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Enter Your Text"
+        android:textSize="20dp"/>
     <EditText
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:textSize="50dp"/>
+        android:textSize="50dp"
+        android:layout_marginTop="30dp"/>
 
     <Button
         android:id="@+id/saveBtn"

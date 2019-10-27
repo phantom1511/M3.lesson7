@@ -1,6 +1,7 @@
 package com.example.m3lesson7;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -36,6 +40,9 @@ public class ListFragment extends Fragment implements IVHListener{
     private OnListFragmentListener mListener;
     private MainAdapter adapter;
     View view;
+    private String DATABASE_NAME = "database";
+    private String ELEMENTS_KEY = "elems";
+
 
     public ListFragment() {
         // Required empty public constructor
@@ -52,14 +59,12 @@ public class ListFragment extends Fragment implements IVHListener{
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
      * @return A new instance of fragment ListFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListFragment newInstance(String param1) {
+    public static ListFragment newInstance() {
         ListFragment fragment = new ListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -71,6 +76,12 @@ public class ListFragment extends Fragment implements IVHListener{
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
+
+        SharedPreferences preferences = getContext().getSharedPreferences(DATABASE_NAME, 0);
+        String allElements = preferences.getString(ELEMENTS_KEY, "");
+        String[] elementsArray = allElements.split(",");
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(elementsArray));
+        adapter.setData(arrayList);
     }
 
     @Override
@@ -80,7 +91,26 @@ public class ListFragment extends Fragment implements IVHListener{
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+
+//        button = view.findViewById(R.id.saveBtn);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                saveNewElem();
+//            }
+//        });
+
+
     }
+
+//    public void saveNewElem(){
+//        String s = "new string";
+//        SharedPreferences preferences = getContext().getSharedPreferences("database", Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.putString("elems", s);
+//        editor.apply();
+//        adapter.addString(s);
+//    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

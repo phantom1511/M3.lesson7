@@ -1,6 +1,7 @@
 package com.example.m3lesson7;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,7 @@ import android.widget.EditText;
  * Use the {@link AddFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AddFragment extends Fragment{
+public class AddFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,6 +36,10 @@ public class AddFragment extends Fragment{
     private EditText editText;
     private OnFragmentAddListener listener;
     private View view;
+    private MainAdapter adapter;
+    private String DATABASE_NAME = "database";
+    private String ELEMENTS_KEY = "elems";
+
 
     public AddFragment() {
         // Required empty public constructor
@@ -79,6 +84,7 @@ public class AddFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 listener.saveButton(editText.getText().toString());
+                saveNewElems();
 
             }
         });
@@ -87,6 +93,35 @@ public class AddFragment extends Fragment{
     }
 
 //    @Override
+//    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//        super.onViewCreated(view, savedInstanceState);
+//
+//        saveButton = view.findViewById(R.id.saveBtn);
+//        saveButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                saveNewElems();
+//            }
+//        });
+//    }
+
+    public void saveNewElems() {
+        SharedPreferences preferences = getContext().getSharedPreferences(DATABASE_NAME, 0);
+        String savedString = preferences.getString(ELEMENTS_KEY, "");
+
+        if (savedString == "") {
+            savedString = editText.getText().toString();
+        } else {
+            savedString += "," + editText.getText().toString();
+        }
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(ELEMENTS_KEY, savedString);
+        editor.apply();
+//        adapter.addString(editText.getText().toString());
+
+    }
+
+    //    @Override
 //    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 //        super.onViewCreated(view, savedInstanceState);
 //

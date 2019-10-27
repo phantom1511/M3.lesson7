@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnLi
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        listFragment = ListFragment.newInstance("Start Element");
+        listFragment = ListFragment.newInstance();
         transaction.replace(R.id.container, listFragment);
         transaction.commit();
 
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnLi
         FragmentTransaction transaction = manager.beginTransaction();
         detailsFragment = DetailsFragment.newInstance(string);
         transaction.replace(R.id.container, detailsFragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
